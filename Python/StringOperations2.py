@@ -18,7 +18,7 @@ def resume(first, second, parent, city, phone, start, strfind, string1):
     else:
         print("False")
     
-    print(new_str.find(strfind))
+    print(new_str.count(strfind))
     
     x=string1.split()
     print(x)
