@@ -3,8 +3,6 @@
 # importing openpyxl module
 import openpyxl as xl
 
-
-
 #modules
 def count_data():
     #method to count data# opening the source excel file
