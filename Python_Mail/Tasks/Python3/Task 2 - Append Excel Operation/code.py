@@ -1,13 +1,13 @@
 # importing openpyxl module
-import openpyxl as xl;
+import openpyxl as xl
   
 # opening the source excel file
-filename ="Z:\\share\\Excel Operation\\sheeta.xlsx"
+filename ="Z:\\share\\Tasks\Python3\\Task 2 - Append Excel Operation\\sheeta.xlsx"
 wb1 = xl.load_workbook(filename)
 ws1 = wb1.worksheets[0]
   
 # opening the destination excel file 
-filename1 ="Z:\\share\\Excel Operation\\sheetb.xlsx"
+filename1 ="Z:\\share\\Tasks\Python3\\Task 2 - Append Excel Operation\\sheetb.xlsx"
 wb2 = xl.load_workbook(filename1)
 ws2 = wb2.active
 
