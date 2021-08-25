@@ -26,7 +26,6 @@ def count_data():
             #row operation
             #reading each row value of a col
             c = ws1.cell(row = j, column = i)
-            total=total+1
             if(str(c.value)=='S'):
                 suc=suc+1
             elif(str(c.value)=='F'):
@@ -39,7 +38,7 @@ def count_data():
         #appending
         ws2.cell(row = mr+1, column = i).value = suc
         ws2.cell(row = mr+2, column = i).value = fail
-        ws2.cell(row = mr+3, column = i).value = total
+        ws2.cell(row = mr+3, column = i).value = int(suc+fail)
     
     #Giving Headings
     ws2.cell(row = mr+1, column = 1).value = "Success"

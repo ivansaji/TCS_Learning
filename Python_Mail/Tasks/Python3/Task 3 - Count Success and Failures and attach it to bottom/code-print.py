@@ -27,12 +27,11 @@ def count_data():
             #row operation
             #reading each row value of a col
             c = ws1.cell(row = j, column = i)
-            total=total+1
             if(str(c.value)=='S'):
                 suc=suc+1
             elif(str(c.value)=='F'):
                 fail=fail+1
-        print("The Total is "+ str(total))
+        print("The Total is "+ str(suc+fail))
         print("The Success is "+ str(suc))
         print("The Fail is "+ str(fail))
         print("___________________________")
