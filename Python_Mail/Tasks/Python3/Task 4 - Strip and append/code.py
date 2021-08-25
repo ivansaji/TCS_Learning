@@ -26,6 +26,8 @@ def count_data():
     #mc+1 sets it to last col
     DstCol=mc+1
 
+    ws2.cell(row = 1, column = DstCol).value = "VM Name"
+
     for i in range(3,mr+1):
         #row operation
 
