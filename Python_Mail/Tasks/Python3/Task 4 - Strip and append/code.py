@@ -9,7 +9,7 @@ def rip(c):
     x=c.split(".")
     return x[0]
 
-def count_data():
+def strip_append():
     #method to count data# opening the source excel file
     filename ="Z:\\share\\Tasks\Python3\\Task 4 - Strip and append\\sheet.xlsx"
     wb1 = xl.load_workbook(filename)
@@ -44,4 +44,4 @@ def count_data():
 
 
 #main
-count_data()
+strip_append()
