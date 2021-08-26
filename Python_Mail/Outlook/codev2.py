@@ -3,7 +3,7 @@ import base64
 import os
 import email
 
-email_user = "ivansajihotmail.com"
+email_user = "ivansaji619@hotmail.com"
 email_pass = "ivan922114"
 
 port=993
@@ -43,5 +43,6 @@ for num in data[0].split():
                 fp.write(part.get_payload(decode=True))
                 fp.close()
             subject = str(email_message).split("Subject: ", 1)[1].split("\nTo:", 1)[0]
-            print('Downloaded "{file}" from email titled "{subject}" with UID {uid}.'.format(file=fileName, subject=subject, uid=latest_email_uid.decode('utf-8')))
+            print("Subject :"+str(subject))
+            print("Report Downloaded")
 

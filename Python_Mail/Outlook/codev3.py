@@ -1,81 +1,57 @@
-import time
-from itertools import chain
-import email
 import imaplib
+import base64
+import os
+import email
 
-imap_ssl_host = 'imap-mail.outlook.com'  # imap.mail.yahoo.com
-imap_ssl_port = 993
-username = 'ivansaji619@hotmail.com'
-password = 'ivan922114'
+email_user = "ivansaji619@hotmail.com"
+email_pass = "ivan922114"
 
-# Restrict mail search. Be very specific.
-# Machine should be very selective to receive messages.
-'''criteria = {
-    'FROM':    'PRIVILEGED EMAIL ADDRESS',
-    'SUBJECT': 'SPECIAL SUBJECT LINE',
-    'BODY':    'SECRET SIGNATURE',
-}'''
-criteria = {
-    'SUBJECT': 'Alert',
-}
-uid_max = 0
+port=993
 
 
-def search_string(uid_max, criteria):
-    c = list(map(lambda t: (t[0], '"'+str(t[1])+'"'), criteria.items())) + [('UID', '%d:*' % (uid_max+1))]
-    return '(%s)' % ' '.join(chain(*c))
-    # Produce search string in IMAP format:
-    #   e.g. (FROM "me@gmail.com" SUBJECT "abcde" BODY "123456789" UID 9999:*)
+mail = imaplib.IMAP4_SSL("imap-mail.outlook.com",port)
 
+mail.login(email_user, email_pass)
+print("Connected to Email")
 
-def get_first_text_block(msg):
-    type = msg.get_content_maintype()
+#Access mail
+mail.select()
 
-    if type == 'multipart':
-        for part in msg.get_payload():
-            if part.get_content_maintype() == 'text':
-                return part.get_payload()
-    elif type == 'text':
-        return msg.get_payload()
+#Define search
+type, data = mail.search(None, 'ALL')
+mail_ids = data[0]
+id_list = mail_ids.split()
 
+for num in data[0].split():
+    typ, data = mail.fetch(num, '(RFC822)' )
+    raw_email = data[0][1]
+# converts byte literal to string removing b''
+    raw_email_string = raw_email.decode('utf-8')
+    email_message = email.message_from_string(raw_email_string)
+# downloading attachments
+    for part in email_message.walk():
 
-server = imaplib.IMAP4_SSL(imap_ssl_host, imap_ssl_port)
-server.login(username, password)
-server.select('INBOX')
-
-result, data = server.uid('search', None, search_string(uid_max, criteria))
-
-uids = [int(s) for s in data[0].split()]
-if uids:
-    uid_max = max(uids)
-    # Initialize `uid_max`. Any UID less than or equal to `uid_max` will be ignored subsequently.
-
-server.logout()
-
-
-# Keep checking messages ...
-# I don't like using IDLE because Yahoo does not support it.
-while 1:
-    # Have to login/logout each time because that's the only way to get fresh results.
-
-    server = imaplib.IMAP4_SSL(imap_ssl_host, imap_ssl_port)
-    server.login(username, password)
-    server.select('INBOX')
-
-    result, data = server.uid('search', None, search_string(uid_max, criteria))
-
-    uids = [int(s) for s in data[0].split()]
-    for uid in uids:
-        # Have to check again because Gmail sometimes does not obey UID criterion.
-        if uid > uid_max:
-            result, data = server.uid('fetch', uid, '(RFC822)')  # fetch entire message
-            msg = email.message_from_string(data[0][1])
-            
-            uid_max = uid
+        #print(email_message)
         
-            text = get_first_text_block(msg)
-            print 'New message :::::::::::::::::::::'
-            print text
+        subject = str(email_message).split("Subject: ", 1)[1].split("\nTo:", 1)[0]
+        #print(subject)
+        if(str(subject) == "Alert"):
+            # downloading attachments
+            for part in email_message.walk():
+                # this part comes from the snipped I don't understand yet... 
+                if part.get_content_maintype() == 'multipart':
+                    continue
+                if part.get('Content-Disposition') is None:
+                    continue
+                fileName = part.get_filename()
+                if bool(fileName):
+                    filePath = os.path.join('Z:\\share\\Outlook\\att', fileName)
+                    if not os.path.isfile(filePath) :
+                        fp = open(filePath, 'wb')
+                        fp.write(part.get_payload(decode=True))
+                        fp.close()
+                        print(subject)
+                        print("Report Downloaded")
 
-    server.logout()
-    time.sleep(1)
+                        print("___________________________")
+
