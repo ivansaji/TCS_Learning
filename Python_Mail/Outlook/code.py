@@ -1,8 +1,8 @@
 import email
 import imaplib
 
-EMAIL = 'ivansaji619@hotmail.com'
-PASSWORD = 'ivan922114'
+EMAIL = 'mailid'
+PASSWORD = 'pass'
 SERVER = 'imap-mail.outlook.com'
 
 # connect to the server and go to its inbox

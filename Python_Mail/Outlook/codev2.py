@@ -3,8 +3,8 @@ import base64
 import os
 import email
 
-email_user = "ivansaji619@hotmail.com"
-email_pass = "ivan922114"
+email_user = "mailid"
+email_pass = "pass"
 
 port=993
 
