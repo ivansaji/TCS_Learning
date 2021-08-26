@@ -2,10 +2,10 @@
 import win32com.client
 import os,time
 
-#pip3 install pywin32
+#pip install pywin32
 
 #update the attachment folder("att") path here
-path = r"Z:\share\Tasks\Python3\Task 1 - Search and Download Report\att"
+path = r"Z:\share\Tasks\Python2\Task 1 - Search and Download Report\att"
 
 #Establishing Connections
 outlook = win32com.client.Dispatch('outlook.application')
